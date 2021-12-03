@@ -1,53 +1,35 @@
 class Kosar:
-    """
-    Egyetlen vásárlás adatait kezelő osztály.
+    def __init__(self):
+        self.termekek = []
+        self.termekek_darabszam = {}
 
-    Az osztály attribútumai:
-        - a kosárban lévő árucikkek (név-mennyiség párok)
-        - a vásárlás összege
-    """
-
-    def __init__(self, termekek: dict[str, int]) -> None:
-        """
-        A kosár létrehozásakor beállítja az osztály attribútumait.
-        """
-        pass
+    def append(self, termek):
+        self.termekek.append(termek)
 
     def osszeg_lekerdezese(self) -> int:
-        """
-        A vásárlás összegének lekérdezése.
-
-        :return: A vásárlás összege Ft-ban.
-        """
-        pass
+        for termek in self.termekek:
+            if termek not in self.termekek_darabszam:
+                self.termekek_darabszam[termek] = 1
+            else:
+                self.termekek_darabszam[termek] += 1
+        osszeg = 0
+        for termek, darab in self.termekek_darabszam.items():
+            if darab == 1:
+                osszeg += 1000
+            else:
+                if osszeg == 2:
+                    osszeg += 1900
+                else:
+                    if osszeg == 3:
+                        osszeg += 2700
+                    else:
+                        osszeg += 2700 + (darab - 3) * 800
+        return osszeg
 
     def termekek_lekerdezese(self) -> dict[str, int]:
-        """
-        Az árucikk-mennyiség párok lekérdezése.
+        return self.termekek_darabszam
 
-        :return: Az árucikkek nevei és mennyiségei.
-        """
-        pass
-
-    def termekek_szamanak_lekerdezese(self) -> int:
-        """
-        A kosárban lévő termékek számának lekérdezése.
-
-        :return: Hány darab termék van a kosárban.
-        """
-        pass
-
-    def arucikk_mennyisegenek_lekerdezese(self, arucikk: str) -> int:
-        """
-        Egy árucikknek a kosárban megtalálható mennyiségének lekérdezése.
-
-        :param arucikk: A vizsgált árucikk neve.
-        :return: A vizsgált árucikk mennyisége a kosárban.
-        """
-        pass
-
-    def kosar_tartalmanak_kiiratasa(self) -> None:
-        """
-        Kiírja a kosár tartalmát a konzolra.
-        """
-        pass
+    def in_kosar(self, termek) -> bool:
+        if termek in self.termekek_darabszam:
+            return True
+        return False
